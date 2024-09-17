@@ -1,0 +1,29 @@
+<Project Sdk="Godot.NET.Sdk/4.3.0">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net7.0</TargetFramework>
+    <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'ios' ">net8.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>GodotANTLR4Sample</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Antlr4.Runtime.Standard" Version="4.13.1" />
+    <PackageReference Include="Antlr4BuildTasks" Version="12.8.0" />
+    <Antlr4 Include="$(Antlr4GrammarDir)/*.g4" Condition="'$(Include)'!='$(SharedGrammarDir)'">
+      <Listener>false</Listener>
+      <GAtn>false</GAtn>
+      <Package>$(GrammarPackage)</Package>
+    </Antlr4>
+    <Antlr4 Include="$(SharedGrammarDir)">
+      <Listener>false</Listener>
+      <Visitor>false</Visitor>
+      <GAtn>false</GAtn>
+      <Package>$(GrammarPackage)</Package>
+    </Antlr4>
+  </ItemGroup>
+  <PropertyGroup>
+    <GrammarPackage>Hello_World</GrammarPackage>
+    <Antlr4GrammarDir>grammar</Antlr4GrammarDir>
+    <SharedGrammarDir>$(Antlr4GrammarDir)/Shared.g4</SharedGrammarDir>
+  </PropertyGroup>
+</Project>

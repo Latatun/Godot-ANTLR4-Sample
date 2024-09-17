@@ -1,0 +1,57 @@
+[gd_scene load_steps=4 format=3 uid="uid://cjrkrm2bfktvo"]
+
+[ext_resource type="Script" path="res://scripts/hello_world.gd" id="1_q6j53"]
+[ext_resource type="Script" path="res://scripts/label_handler.gd" id="2_dpxv6"]
+
+[sub_resource type="GDScript" id="GDScript_askdm"]
+script/source = "extends LineEdit
+
+func _on_text_submitted(_new_text):
+	clear()
+"
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_q6j53")
+
+[node name="VSplitContainer" type="VSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VSplitContainer"]
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="VSplitContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="result_label" type="Label" parent="VSplitContainer/ScrollContainer/MarginContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+autowrap_mode = 1
+script = ExtResource("2_dpxv6")
+
+[node name="MarginContainer" type="MarginContainer" parent="VSplitContainer"]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="VSplitContainer/MarginContainer"]
+layout_mode = 2
+placeholder_text = "Goodbye Real World?"
+clear_button_enabled = true
+script = SubResource("GDScript_askdm")
+
+[connection signal="on_text_parsed" from="." to="VSplitContainer/ScrollContainer/MarginContainer/result_label" method="_on_control_on_text_parsed"]
+[connection signal="text_submitted" from="VSplitContainer/MarginContainer/LineEdit" to="." method="_on_line_edit_text_submitted"]
+[connection signal="text_submitted" from="VSplitContainer/MarginContainer/LineEdit" to="VSplitContainer/MarginContainer/LineEdit" method="_on_text_submitted"]
